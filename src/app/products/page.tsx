@@ -1,13 +1,16 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import { RouteStub } from "@/components/ui/route-stub";
+import { ProductListing } from "@/components/product/product-listing";
 
 export const metadata: Metadata = { title: "Shop everything" };
 
 export default function ProductsPage() {
   return (
-    <RouteStub
-      title="Shop everything"
-      description="Browse the full catalogue — coming in a later phase of the build."
-    />
+    <Suspense>
+      <ProductListing
+        title="Shop everything"
+        description="Groceries, household essentials and electronics from MARKSONGLOBAL STORES."
+      />
+    </Suspense>
   );
 }

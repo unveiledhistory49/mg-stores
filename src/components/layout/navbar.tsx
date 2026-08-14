@@ -14,6 +14,7 @@ import { sdk } from "@/lib/sdk";
 import { cn } from "@/lib/utils";
 
 const STATIC_LINKS = [
+  { label: "Shop", href: "/products" },
   { label: "Deals", href: "/deals" },
   { label: "About us", href: "/about" },
 ];

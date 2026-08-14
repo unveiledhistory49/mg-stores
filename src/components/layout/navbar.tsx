@@ -40,7 +40,8 @@ export function Navbar() {
   const isActive = (href: string) => pathname === href;
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur">
+    <>
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur">
       <div className="bg-brand-950 text-brand-100">
         <Container className="flex h-9 items-center justify-between text-xs">
           <p className="font-medium">Everything you need. One store.</p>
@@ -129,7 +130,7 @@ export function Navbar() {
             type="button"
             aria-label="Open search"
             onClick={() => setSearchOpen(true)}
-            className="flex h-11 w-11 items-center justify-center rounded-lg text-stone-700 transition-colors hover:bg-stone-100 lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-stone-700 transition-colors hover:bg-stone-100 md:hidden"
           >
             <Search aria-hidden="true" className="h-6 w-6" />
           </button>
@@ -159,6 +160,7 @@ export function Navbar() {
           </button>
         </div>
       </Container>
+      </header>
 
       <MobileMenu
         open={mobileOpen}
@@ -170,6 +172,6 @@ export function Navbar() {
         open={searchOpen}
         onClose={() => setSearchOpen(false)}
       />
-    </header>
+    </>
   );
 }

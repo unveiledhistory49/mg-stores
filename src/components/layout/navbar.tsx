@@ -43,9 +43,8 @@ export function Navbar() {
     <>
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur">
       <div className="bg-brand-950 text-brand-100">
-        <Container className="flex h-9 items-center justify-between text-xs">
-          <p className="font-medium">Everything you need. One store.</p>
-          <p className="hidden sm:block">We deliver across Nigeria</p>
+        <Container className="flex h-9 items-center justify-center text-xs">
+          <p className="font-medium">We deliver across Nigeria</p>
         </Container>
       </div>
 

@@ -4,13 +4,23 @@ import { MgMark } from "@/components/brand/mg-mark";
 type MgWordmarkProps = {
   className?: string;
   light?: boolean;
+  compact?: boolean;
 };
 
-export function MgWordmark({ className, light = false }: MgWordmarkProps) {
+export function MgWordmark({
+  className,
+  light = false,
+  compact = false,
+}: MgWordmarkProps) {
   return (
     <span className={cn("inline-flex items-center gap-3", className)}>
       <MgMark className="h-11 w-11 text-xl" />
-      <span className="flex flex-col leading-none">
+      <span
+        className={cn(
+          "flex flex-col leading-none",
+          compact && "hidden sm:flex",
+        )}
+      >
         <span
           className={cn(
             "font-display text-xl font-bold tracking-tight",

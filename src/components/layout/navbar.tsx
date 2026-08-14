@@ -61,7 +61,7 @@ export function Navbar() {
             <Menu aria-hidden="true" className="h-6 w-6" />
           </button>
           <Link href="/" aria-label="MARKSONGLOBAL STORES home">
-            <MgWordmark />
+            <MgWordmark compact />
           </Link>
         </div>
 

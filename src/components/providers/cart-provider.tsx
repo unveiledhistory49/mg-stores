@@ -27,6 +27,9 @@ type CartContextValue = {
   addItem: (variantId: string, quantity?: number) => Promise<boolean>;
   updateQuantity: (lineItemId: string, quantity: number) => Promise<void>;
   removeItem: (lineItemId: string) => Promise<void>;
+  applyPromotion: (code: string) => Promise<boolean>;
+  removePromotion: (code: string) => Promise<void>;
+  refreshCart: () => Promise<void>;
   clearCart: () => void;
 };
 
@@ -202,6 +205,61 @@ export function CartProvider({ children }: CartProviderProps) {
     setCartState(null);
   }, [setCartState]);
 
+  const applyPromotion = useCallback(
+    async (code: string): Promise<boolean> => {
+      const activeCart = cartRef.current;
+      if (!activeCart) return false;
+      setIsMutating(true);
+      setError(null);
+      try {
+        const { cart: updated } = await sdk.store.cart.addPromotions(
+          activeCart.id,
+          { promo_codes: [code] },
+        );
+        setCartState(updated);
+        return true;
+      } catch {
+        setError("That promo code couldn't be applied. Please check it and try again.");
+        return false;
+      } finally {
+        setIsMutating(false);
+      }
+    },
+    [setCartState],
+  );
+
+  const removePromotion = useCallback(
+    async (code: string) => {
+      const activeCart = cartRef.current;
+      if (!activeCart) return;
+      setIsMutating(true);
+      setError(null);
+      try {
+        const { cart: updated } = await sdk.store.cart.removePromotions(
+          activeCart.id,
+          { promo_codes: [code] },
+        );
+        setCartState(updated);
+      } catch {
+        setError("Could not remove the promo code. Please try again.");
+      } finally {
+        setIsMutating(false);
+      }
+    },
+    [setCartState],
+  );
+
+  const refreshCart = useCallback(async () => {
+    const activeCart = cartRef.current;
+    if (!activeCart) return;
+    try {
+      const { cart: updated } = await sdk.store.cart.retrieve(activeCart.id);
+      setCartState(updated);
+    } catch {
+      setError("Could not refresh your cart. Please try again.");
+    }
+  }, [setCartState]);
+
   const cartCount = useMemo(() => {
     if (!cart?.items) return 0;
     return cart.items.reduce((sum, item) => sum + (item.quantity ?? 0), 0);
@@ -220,6 +278,9 @@ export function CartProvider({ children }: CartProviderProps) {
       addItem,
       updateQuantity,
       removeItem,
+      applyPromotion,
+      removePromotion,
+      refreshCart,
       clearCart,
     }),
     [
@@ -232,6 +293,9 @@ export function CartProvider({ children }: CartProviderProps) {
       addItem,
       updateQuantity,
       removeItem,
+      applyPromotion,
+      removePromotion,
+      refreshCart,
       clearCart,
     ],
   );
